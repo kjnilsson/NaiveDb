@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NaiveDb")]
+[assembly: AssemblyTitle("NaiveDbImpl.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NaiveDbImpl")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCompany("Hewlett-Packard Company")]
+[assembly: AssemblyProduct("NaiveDbImpl.Tests")]
+[assembly: AssemblyCopyright("Copyright © Hewlett-Packard Company 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ac05deac-b522-4698-85fe-a61db0d99fb8")]
+[assembly: Guid("b9c4c4b8-19bc-42e6-b52a-f6a24f5dc09a")]
 
 // Version information for an assembly consists of the following four values:
 //

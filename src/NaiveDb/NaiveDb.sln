@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveDb", "NaiveDb\NaiveDb.csproj", "{88101882-E150-44DD-8382-174759F87F3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveDb.Tests", "NaiveDb.Tests\NaiveDb.Tests.csproj", "{1C95ADE9-2BB5-4D5B-8C23-0B89E3FA915B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{88101882-E150-44DD-8382-174759F87F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88101882-E150-44DD-8382-174759F87F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88101882-E150-44DD-8382-174759F87F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C95ADE9-2BB5-4D5B-8C23-0B89E3FA915B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C95ADE9-2BB5-4D5B-8C23-0B89E3FA915B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C95ADE9-2BB5-4D5B-8C23-0B89E3FA915B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C95ADE9-2BB5-4D5B-8C23-0B89E3FA915B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
