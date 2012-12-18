@@ -6,9 +6,9 @@ open System.Text
 type MemTable =
     { Cache : Map<string, string> }
     
-let mutable mt = { Cache = Map.empty }
+let mutable private mt = { Cache = Map.empty }
 
-let mutable fs : FileStream = null
+let mutable private fs : FileStream = null
 
 let openFile s =
     if(fs = null) then
@@ -17,37 +17,73 @@ let openFile s =
         fs.Close()
         fs <- File.Open(s, FileMode.Create)
 
-let logWrite pair =
+
+let private getBytes s = Encoding.UTF8.GetBytes(s : string) : byte[]
+
+let private logWrite pair =
     let write bytes = fs.Write(bytes, 0, bytes.Length)
-    let getBytes s = Encoding.UTF8.GetBytes(s : string) : byte[]
+    
     
     match pair with
     | (key:string, value:string) ->
         try
-            let keyBytes = getBytes key
-            let valueBytes = getBytes value
-
             let all = seq {
+                let keyBytes = getBytes key
+                let valueBytes = getBytes value
                 yield BitConverter.GetBytes keyBytes.Length 
                 yield keyBytes
                 yield BitConverter.GetBytes valueBytes.Length
                 yield valueBytes
             } 
 
-            let allb = Array.concat all
+            let allBytes = Array.concat all
 
-            allb |> write     
+            allBytes |> write     
 
             fs.Flush()
-            Some()
+            
+            Some(allBytes.Length)
         with
             | ex -> None
 
+
+let private toBytes(key, value) =
+    let all = seq {
+                let keyBytes = getBytes key
+                let valueBytes = getBytes value
+                yield BitConverter.GetBytes keyBytes.Length 
+                yield keyBytes
+                yield BitConverter.GetBytes valueBytes.Length
+                yield valueBytes
+            } 
+
+    Array.concat all
+
+
 let addToMemTable (key, value) =
     mt <- { mt with Cache =  mt.Cache.Add(key, value) }    
-    logWrite (key, value)
+    match logWrite (key, value) with
+    | Some n -> 
+        printfn "written %A " n
+        if(n > 1024 * 4) then
+            printf "big"
+            let cache = mt.Cache
+            mt <- { mt with Cache = Map.empty }
+            //write cache to disk
+            //Map.map (fun (k, v) -> toBytes (k, v)) 
+            cache
+            |> Map.toList
+            |> List.map (fun (k, v) -> toBytes (k, v)) 
+            |> Array.concat
+            |> (fun x -> File.WriteAllBytes (@"c:\dump\naif\sstable1.sst", x))
+
+            //ignore // create sstable from cache
+        
+    | None -> printf "could not write to log"
 
 let closeFile() = 
     fs.Close()
     fs.Dispose();
 
+let get(key) =
+    mt.Cache.TryFind key

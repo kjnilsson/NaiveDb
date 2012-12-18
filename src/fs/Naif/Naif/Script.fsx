@@ -10,6 +10,11 @@ MemTable.openFile @"c:\dump\naif\mm1.log"
 MemTable.addToMemTable("karl", "nilsson")
 MemTable.addToMemTable("hey", "ho")
 MemTable.addToMemTable("ban", "ana")
+
+match MemTable.get "karls" with
+| Some s -> printfn "%s" s
+| None -> printf "not found"
+
 MemTable.closeFile()
 
 
