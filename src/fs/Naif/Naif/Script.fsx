@@ -9,10 +9,11 @@ open System
 open System.IO
 open MemTable
 
-let put (k, v, mt:MemTable) =
+let put (k, v, mt:MemTable.MemTable) =
     let m = mt.add(k, v)
     if (m.Size > 4096L) then
         m.close()
+        m.complete()
         printf "sstable to be created"
         MemTable.openFile @"c:\dump\naif\mm14.log"
     else
@@ -23,7 +24,7 @@ let mutable mt = MemTable.openFile @"c:\dump\naif\mm14.log"
 mt <- put (Guid.NewGuid().ToString(), "123412341234", mt)
 //mt <- mt.add ("ruth", "7803253514")
 //mt <- mt.add ("jasper", "0903253514")
-
+printfn "%A" mt.File.Name
 mt.close ()
 
 let m1 = Map.empty

@@ -47,6 +47,8 @@ type MemTable =
     member x.close () =
         x.File.Close()
         x.File.Dispose()
+    member x.complete () = 
+        File.Move(x.File.Name, x.File.Name + "XX")
     interface System.IDisposable with
         member x.Dispose() =
             x.File.Dispose()
@@ -88,11 +90,11 @@ let readLog (fs:Stream) =
 
 let openFile s =
     if (File.Exists s) then
-        let readFs = File.OpenRead s
+        use readFs = File.OpenRead s
         let log = readLog readFs
         let pos = readFs.Position;
         readFs.Close()
-        readFs.Dispose()
+        //readFs.Dispose()
 
         let fs = File.Open(s, FileMode.Append)
         { Cache = log; File = fs; Size = pos }
@@ -129,3 +131,4 @@ let openFile s =
 let closeFile (fs:FileStream) = 
     fs.Close()
     fs.Dispose();
+
