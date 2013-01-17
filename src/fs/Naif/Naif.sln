@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Naif", "Naif\Naif.fsproj", "{10B9FD64-7246-423C-93D6-0B759B8AD4A6}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Naif.Tests", "Naif.Tests\Naif.Tests.fsproj", "{EDE2DA37-BBEC-41A3-A34E-F996CEC54C3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{10B9FD64-7246-423C-93D6-0B759B8AD4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B9FD64-7246-423C-93D6-0B759B8AD4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B9FD64-7246-423C-93D6-0B759B8AD4A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE2DA37-BBEC-41A3-A34E-F996CEC54C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE2DA37-BBEC-41A3-A34E-F996CEC54C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE2DA37-BBEC-41A3-A34E-F996CEC54C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE2DA37-BBEC-41A3-A34E-F996CEC54C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

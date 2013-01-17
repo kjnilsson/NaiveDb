@@ -48,7 +48,8 @@ type MemTable =
         x.File.Close()
         x.File.Dispose()
     member x.complete () = 
-        File.Move(x.File.Name, x.File.Name + "XX")
+        File.Move(x.File.Name, x.File.Name + "_old")
+        x
     interface System.IDisposable with
         member x.Dispose() =
             x.File.Dispose()
