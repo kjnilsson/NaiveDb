@@ -3,9 +3,11 @@ open System.IO
 open System
 open System.Text
 
-let private getBytes s = Encoding.UTF8.GetBytes(s : string) : byte[]
+type Agent<'T> = MailboxProcessor<'T>
 
-let private toBytes(key, value) =
+let getBytes s = System.Text.Encoding.UTF8.GetBytes(s : string) : byte[]
+
+let toBytes(key, value) =
     let all = seq {
                 let keyBytes = getBytes key
                 let valueBytes = getBytes value
@@ -32,6 +34,25 @@ let private logWrite (fs:FileStream, pair) =
             |> Some
         with
             | ex -> None
+
+type MemTableMsg =
+| Put of (string * string)
+| Length of AsyncReplyChannel<int64>
+
+
+let agent path = 
+    Agent.Start(fun inbox -> 
+        let rec loop fs =
+            async { let! msg = inbox.Receive ()
+                    match msg with
+                    | Put (k, v) -> 
+                        logWrite (fs,  (k, v)) |> ignore
+                        return! loop fs
+                    | Length reply -> 
+                        reply.Reply fs.Length 
+                        return! loop fs }
+
+        loop (File.OpenWrite path) )
 
 type MemTable =  
     { Cache : Map<string, string>; File : FileStream; Size : int64 }
@@ -101,33 +122,6 @@ let openFile s =
         { Cache = log; File = fs; Size = pos }
     else
         { Cache = Map.empty; File = File.OpenWrite(s); Size = 0L }
-
-
-
-//
-//
-//let addToMemTable (fs, key, value) =
-//    //{ mt with Cache =  mt.Cache.Add(key, value) }    
-//    let lw pair = logWrite (fs, pair)
-//    match lw (key, value) with
-//    | Some n ->
-//        printfn "written %A " n
-////        if(n > 1024 * 4) then
-////            printf "big"
-////            let cache = mt.Cache
-////            mt <- { mt with Cache = Map.empty }
-////            //write cache to disk
-////            //Map.map (fun (k, v) -> toBytes (k, v)) 
-////            cache
-////            |> Map.toList
-////            |> List.map (fun (k, v) -> toBytes (k, v)) 
-////            |> Array.concat
-////            |> (fun x -> File.WriteAllBytes (@"c:\dump\naif\sstable1.sst", x))
-//
-//            //ignore // create sstable from cache
-//        
-//    | None -> printf "could not write to log"
-//    { mt with Cache =  mt.Cache.Add(key, value) }  
 
 let closeFile (fs:FileStream) = 
     fs.Close()
